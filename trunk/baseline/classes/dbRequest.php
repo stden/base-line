@@ -14,6 +14,13 @@ class DbRequest
 	protected $orderBy = array();
 	protected $groupBy = array();
 	protected $having = array();
+	protected $tablePrefix = '';
+	
+	public function __construct ()
+	{
+		$db = Db::getInstance();
+		$tablePrefix = $db->tablePrefix;
+	}
 	
 	public function select($fields)
 	{
@@ -53,6 +60,10 @@ class DbRequest
 	{
 		if( is_string($tables) ) $this->tables = explode(',', $tables);
 		else $this->tables = $tables;
+		
+		for($i=0;$i<sizeof($this->tables);$i++)
+			$this->tables[$i] = $this->tablePrefix . $this->tables[$i];
+		
 		return $this;
 	}
 	
@@ -78,8 +89,14 @@ class DbRequest
 	
 	public function limit($limit, $offset=null)
 	{
-		$this->limit = $limit;
-		if( !is_null($offset) ) $this->offset =$offset;
+		$this->limit = (int) $limit;
+		if( !is_null($offset) ) $this->offset = (int) $offset;
+		return $this;
+	}
+	
+	public function offset ($offset)
+	{
+		$this->offset = (int) $offset;
 		return $this;
 	}
 	
@@ -194,7 +211,7 @@ class DbRequest
 	}
 	
 	
-	// todo: having, offset
+
 	
 }
 
