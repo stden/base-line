@@ -5,11 +5,11 @@ class File
 	private $folder = null;
 	private $name = null;
 
-	public function __construct($path)
+	public function __construct($path, $create = false)
 	{
 		$this->folder = new Folder(dirname($path));
 		$this->name = basename($path);
-		if (!$this->exists())
+		if (!$this->exists() && $create)
 		{
 			if (!$this->create())
 			{
