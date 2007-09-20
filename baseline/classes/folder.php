@@ -3,10 +3,10 @@ class Folder
 {
 	private $path = null;
 
-	function __construct($path = false,$mode=null)
+	function __construct($path = false, $mode = null, $create = false)
 	{
 		$mode=($mode==null ? 0700 : $mode);
-		if (!is_dir($path))
+		if (!is_dir($path) && $create)
 		{
 			$this->mkdirr($path, $mode);
 		}

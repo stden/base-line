@@ -77,7 +77,6 @@ class Db
 		return false;
 	}
 
-
 	public function getValue($query)
 	{
 		$result = $this->execute($query);
