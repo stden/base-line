@@ -2,7 +2,7 @@
 
 class Db
 {
-	private $link = false;
+	private static $link = false;
 	private static $_instance;
 	public static $lastInsertId;
 	public static $statistics = array(
@@ -11,12 +11,15 @@ class Db
 										'totalExecutionTime' => 0
 									  );
 	public static $logger = false;
+	private static $config;
+	public static $tablePrefix = '';
 
 	private function __construct()
 	{
 		try { $config = new Config( ApplicationPath . DS . 'configs' . DS . 'db.conf' ); }
 		catch(Exception $e) { die('Could not find db.conf!'); }
-		$this->config = $config;		
+		$this->config = $config;
+		$this->tablePrefix = $config->tablePrefix;
 	}
 
 	private function __clone(){}
